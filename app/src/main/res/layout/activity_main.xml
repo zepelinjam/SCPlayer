@@ -6,10 +6,6 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="com.example.scplayer.MainActivity">
 
-
-
-
-
     <ProgressBar
         android:id="@+id/pb_main_loader"
         android:layout_width="50dp"
@@ -30,15 +26,4 @@
 
     <include layout="@layout/toolbar" android:id="@+id/toolbar" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:src="@android:drawable/ic_menu_search"
-        app:fabSize="normal"
-        app:layout_anchor="@id/recycler"/>
 </RelativeLayout>

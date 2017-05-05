@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                //Lancer la chanson
+                // Начало песни
                 togglePlay(mp);
             }
         });
@@ -107,14 +107,6 @@ public class MainActivity extends AppCompatActivity {
         pushPlay();
         pushPrevious();
         pushNext();
-
-        // Управление по нажатию на кнопку поиска
-        fab_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDialog();
-            }
-        });
     }
     // обработчик меню (поиск)
     @Override
@@ -144,28 +136,6 @@ public class MainActivity extends AppCompatActivity {
         });
         return true;
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
-        MenuItem item = menu.findItem(R.id.menuSearch);
-        SearchView searchView = (SearchView)item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     private void handleSeekbar(){
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -211,13 +181,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void togglePlay(MediaPlayer mp){
 
-        if(mp.isPlaying()){
-            mp.stop();
-            mp.reset();
+        if(mp.isPlaying()){ // если музыка играет, то
+            mp.stop(); // остановка
+            mp.reset(); // сброс
         }else{
             pb_loader.setVisibility(View.GONE);
             tb_title.setVisibility(View.VISIBLE);
-            mp.start();
+            mp.start(); // воспроизведение
+            // кнопка воспроизведения меняется
             iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.selector_pause));
             final Handler mHandler = new Handler();
             this.runOnUiThread(new Runnable() {
@@ -247,8 +218,6 @@ public class MainActivity extends AppCompatActivity {
         recycler = (RecyclerView) findViewById(R.id.recycler);
         seekBar = (SeekBar) findViewById(R.id.seekbar);
         tv_time = (TextView) findViewById(R.id.tv_time);
-        fab_search = (FloatingActionButton) findViewById(R.id.fab_search);
-
     }
 
     public void getSongList(String query){
@@ -349,30 +318,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-    }
-
-    public void createDialog(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        final View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
-        builder.setTitle(R.string.search);
-        builder.setView(view);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText et_search = (EditText) view.findViewById(R.id.et_search);
-                String search = et_search.getText().toString().trim();
-                if(search.length() > 0){
-                    getSongList(search);
-                }else{
-                    Toast.makeText(MainActivity.this, "Пожалуйста, заполните поле", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        builder.create().show();
-
 
     }
 

@@ -30,4 +30,7 @@ dependencies {
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile ('com.mikepenz.materialdrawer:library:0.9.5@aar') {
+        transitive = true
+    }
 }

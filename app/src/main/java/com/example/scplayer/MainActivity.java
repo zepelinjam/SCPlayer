@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,13 @@ import com.example.scplayer.Adapter.SongAdapter;
 import com.example.scplayer.Model.Song;
 import com.example.scplayer.Request.SoundcloudApiRequest;
 import com.example.scplayer.Utility.Utility;
+import com.mikepenz.iconics.typeface.FontAwesome;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+
 import org.w3c.dom.Text;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,7 +115,26 @@ public class MainActivity extends AppCompatActivity {
         pushPlay();
         pushPrevious();
         pushNext();
+
+
+        // Handle Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarUP);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Работа с Navigation Drawer
+        new Drawer()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
+                .withHeader(R.layout.drawer_header)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_enter).withIcon(FontAwesome.Icon.faw_home),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_account).withIcon(FontAwesome.Icon.faw_gamepad)
+                )
+                .build();
+
     }
+
     // обработчик меню (поиск)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

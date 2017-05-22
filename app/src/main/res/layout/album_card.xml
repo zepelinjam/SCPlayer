@@ -10,7 +10,8 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/card_margin"
         android:elevation="3dp"
-        card_view:cardCornerRadius="@dimen/card_album_radius">
+        card_view:cardCornerRadius="@dimen/card_album_radius"
+        card_view:cardBackgroundColor="@color/cardview_light_background">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,6 +44,7 @@
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
+                android:textColor="@color/album_title"
                 android:textSize="@dimen/songs_count" />
         </RelativeLayout>
 

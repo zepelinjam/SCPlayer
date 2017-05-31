@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
@@ -18,24 +19,26 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:text="Titre de la chanson"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         android:paddingRight="50dp"
         android:paddingEnd="50dp"
         android:layout_toRightOf="@id/iv_artwork"
         android:layout_toEndOf="@id/iv_artwork"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="Название композиции"/>
 
     <TextView
         android:id="@+id/tv_artist"
-        android:text="Artiste"
+        android:text="Исполнитель"
         android:layout_toRightOf="@id/iv_artwork"
         android:layout_toEndOf="@id/iv_artwork"
         android:layout_below="@id/tv_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/tv_duration"
@@ -43,7 +46,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"/>
 
     <ImageView
         android:id="@+id/iv_play_active"

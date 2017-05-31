@@ -6,6 +6,13 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="com.example.scplayer.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_main_loader"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarUP"
         android:layout_width="match_parent"
@@ -14,14 +21,19 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         android:paddingTop="@dimen/tool_bar_top_padding"
-        android:transitionName="actionBar" />
+        android:transitionName="actionBar">
 
-    <ProgressBar
-        android:id="@+id/pb_main_loader"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"
-        android:layout_centerInParent="true"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_alignLeft="@+id/toolbar_spinner"
+            android:layout_alignStart="@+id/toolbar_spinner"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:entries="@array/genres">
+        </Spinner>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"

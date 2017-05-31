@@ -12,8 +12,12 @@
     <string name="drawer_item_open_source">Open Source</string>
     <string name="drawer_item_contact">Contact</string>
 
-    <string name="action_add_favourite">Add to Favourites</string>
-    <string name="action_play_next">Play Next</string>
-    <string name="backdrop_title">LOVE MUSIC</string>
-    <string name="backdrop_subtitle">This season top 20 albums</string>
+
+    <string-array name="genres">
+        <item>All</item>
+        <item>Rock</item>
+        <item>Pop</item>
+        <item>Rap</item>
+        <item>Hip-Hop</item>
+    </string-array>
 </resources>

@@ -6,7 +6,7 @@ public class Song implements Comparable<Song>{
 
     private long id;
     private String title;
-    private String artist;
+    private String artist; // username
     private String artworkUrl;
     private long duration;
     private String streamUrl;

@@ -19,14 +19,17 @@
 
             <ImageView
                 android:id="@+id/thumbnail"
+                android:src="@drawable/music_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/album_cover_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:adjustViewBounds="false"/>
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/playlist_title"
+                android:src="@drawable/music_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/thumbnail"
@@ -37,10 +40,20 @@
                 android:textSize="@dimen/album_title" />
 
             <TextView
-                android:id="@+id/count"
+                android:id="@+id/artist_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title"
+                android:layout_below="@id/playlist_title"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:textColor="@color/album_title"
+                android:textSize="@dimen/songs_count" />
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/artist_title"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"

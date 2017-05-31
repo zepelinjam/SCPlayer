@@ -20,10 +20,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.RequestQueue;
@@ -59,16 +62,39 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private boolean firstLaunch = true;
     private FloatingActionButton fab_search;
+    private Spinner spinner;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // просмотр иницализаций
+        // инициализация вьюшек
         initializeViews();
         // запрос списка песен
         getSongList("");
+
+
+        // Настраиваем адаптер для спиннера
+        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.genres, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Вызываем адаптер
+        spinner.setSelection(0); // жанр по умолчанию "All"
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = spinner.getSelectedItem().toString();
+                getSongList(selected);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         songList = new ArrayList<>();
 
@@ -118,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Handle Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarUP);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Работа с Navigation Drawer
@@ -132,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_account).withIcon(FontAwesome.Icon.faw_gamepad)
                 )
                 .build();
-
     }
 
     // обработчик меню (поиск)
@@ -233,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    // иницализация вьюшек
     private void initializeViews(){
 
         tb_title = (TextView) findViewById(R.id.tb_title);
@@ -242,30 +266,31 @@ public class MainActivity extends AppCompatActivity {
         iv_previous = (ImageView) findViewById(R.id.iv_previous);
         pb_loader = (ProgressBar) findViewById(R.id.pb_loader);
         pb_main_loader = (ProgressBar) findViewById(R.id.pb_main_loader);
-        recycler = (RecyclerView) findViewById(R.id.recycler);
+        recycler = (RecyclerView) findViewById(R.id.recycler); // RecyclerView
         seekBar = (SeekBar) findViewById(R.id.seekbar);
         tv_time = (TextView) findViewById(R.id.tv_time);
+        toolbar = (Toolbar) findViewById(R.id.toolbarUP); // Тулбар
+        spinner = (Spinner) findViewById(R.id.spinner); // Spinner на Тулбаре
     }
 
     public void getSongList(String query){
         RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();
         SoundcloudApiRequest request = new SoundcloudApiRequest(queue);
-        pb_main_loader.setVisibility(View.VISIBLE);
+        pb_main_loader.setVisibility(View.VISIBLE); // запуск анимации загрузки
         request.getSongList(query, new SoundcloudApiRequest.SoundcloudInterface() {
             @Override
             public void onSuccess(ArrayList<Song> songs) {
                 currentIndex = 0;
-                pb_main_loader.setVisibility(View.GONE);
-                songList.clear();
-                songList.addAll(songs);
+                pb_main_loader.setVisibility(View.GONE); // отключение анимации загрузки
+                songList.clear(); // очистка массива
+                songList.addAll(songs); // наполнение массива загруженными данными
                 mAdapter.notifyDataSetChanged();
                 mAdapter.setSelectedPosition(0);
-
             }
 
             @Override
             public void onError(String message) {
-                pb_main_loader.setVisibility(View.GONE);
+                pb_main_loader.setVisibility(View.GONE); // отключение анимации загрузки
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
@@ -350,10 +375,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+    /*
+    @Override
+    protected void onDestroy() {
         if(mediaPlayer != null){
             mediaPlayer.release();
         }
         super.onDestroy();
-    }
+    }*/
 }
 

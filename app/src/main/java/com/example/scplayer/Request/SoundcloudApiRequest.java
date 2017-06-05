@@ -24,7 +24,7 @@ public class SoundcloudApiRequest {
     }
     // описываем интерфейс для плейлистов
     public interface SoundcloudInterface_PL{
-        void onSucsess_PL(ArrayList<Playlist> playlists); // описываем для плейлистов
+        void onSucsess_PL(ArrayList<Playlist> playlists, ArrayList<Song> songs); // описываем для плейлистов
         void onError_PL (String message); // описываем для плейлистов
     }
     // Класс RequestQueue (из библ. Volley) используется для отправки сетевых запросов
@@ -32,7 +32,7 @@ public class SoundcloudApiRequest {
     //private static final String URL = "http://api.soundcloud.com/tracks?filter=public&limit=100&client_id="+ Config.CLIENT_ID;
     public static String URL = "http://api.soundcloud.com/tracks?filter=public&limit=100&client_id="+ Config.CLIENT_ID;
     private static final String TAG = "APP";
-    private static final String URL_PL = "http://api.soundcloud.com/playlists?filter=public&limit=100&client_id="+ Config.CLIENT_ID;
+    private static final String URL_PL = "http://api.soundcloud.com/playlists?filter=public&limit=100&streamable=true&client_id="+ Config.CLIENT_ID;
     
     public SoundcloudApiRequest(RequestQueue queue) {
         this.queue = queue;
@@ -59,6 +59,8 @@ public class SoundcloudApiRequest {
                 Log.d(TAG, "onResponse: " + response); // отмечаем в логе
 
                 ArrayList<Playlist> playlists = new ArrayList<>(); // создам массив <Playlist>
+                ArrayList<Song> songs = new ArrayList<>();
+
                 if(response.length() > 0){ // если ответ с сервера не пустой, то
                     for (int i = 0; i < response.length() ; i++) { // для каждого элемента в полученном массиве ...
                         try {
@@ -73,6 +75,19 @@ public class SoundcloudApiRequest {
                             Playlist playlist = new Playlist(id, title, artist, artworkUrl_PL, genre);
                             playlists.add(playlist);
 
+                            JSONObject songObject = response.getJSONObject(i);
+                            long track_id = songObject.getLong("id");
+                            String track_title = songObject.getString("title");
+                            String track_artworkUrl = songObject.getString("artwork_url");
+                            String track_streamUrl = songObject.getString("stream_url");
+                            long track_duration = songObject.getLong("duration");
+                            int track_playbackCount = songObject.has("playback_count") ? songObject.getInt("playback_count") : 0;
+                            JSONObject track_user = songObject.getJSONObject("user");
+                            String track_artist = user.getString("username");
+
+                            Song song = new Song(track_id, track_title, track_artist, track_artworkUrl, track_duration, track_streamUrl, track_playbackCount);
+                            songs.add(song);
+
                         } catch (JSONException e) {
                             Log.d(TAG, "onResponse: " + e.getMessage());
                             callback.onError_PL("Произошла ошибка");
@@ -80,7 +95,7 @@ public class SoundcloudApiRequest {
                         }
                     }
 
-                    callback.onSucsess_PL(playlists);
+                    callback.onSucsess_PL(playlists, songs);
 
                 }else{
                     callback.onError_PL("Не найдено плейлистов");
